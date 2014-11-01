@@ -3,9 +3,14 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/Users/happy_skd/Documents/NetBeansProjects/minor/src/minor/MinorApp.java</file>
-            <file>file:/C:/Users/happy_skd/Documents/NetBeansProjects/minor/src/minor/MinorView.java</file>
-            <file>file:/C:/Users/happy_skd/Documents/NetBeansProjects/minor/src/minor/MinorAboutBox.java</file>
+            <file>file:/home/brij/Documents/minor/src/minor/PenDriveList.java</file>
+            <file>file:/home/brij/Documents/minor/src/minor/resources/DecryptProgress.properties</file>
+            <file>file:/home/brij/Documents/minor/src/minor/EncryptOrDecrypt.java</file>
+            <file>file:/home/brij/Documents/minor/src/minor/MinorAboutBox.java</file>
+            <file>file:/home/brij/Documents/minor/src/minor/DecryptProgress.java</file>
+            <file>file:/home/brij/Documents/minor/src/minor/MinorView.java</file>
+            <file>file:/home/brij/Documents/minor/src/minor/EncryptProgress.java</file>
+            <file>file:/home/brij/Documents/minor/src/minor/MinorApp.java</file>
         </group>
     </open-files>
 </project-private>

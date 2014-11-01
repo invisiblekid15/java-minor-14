@@ -17,7 +17,6 @@ import javax.swing.JDialog;
 import javax.swing.JFrame;
 import java.sql.*;    //for sql statements
 import javax.swing.JOptionPane;
-
 /**
  * The application's main frame.
  */
@@ -92,7 +91,19 @@ public class MinorView extends FrameView {
         }
         MinorApp.getApplication().show(aboutBox);
     }
-
+    
+    @Action
+    public void showEncryptOrDecrypt(){
+        if(eOD == null)
+        {
+            JFrame mainFrame = MinorApp.getApplication().getMainFrame();
+            eOD = new EncryptOrDecrypt();
+            eOD.setLocationRelativeTo(mainFrame);
+            mainFrame.dispose();
+        }
+         MinorApp.getApplication().show(eOD);
+         
+    }
     /** This method is called from within the constructor to
      * initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is
@@ -134,6 +145,8 @@ public class MinorView extends FrameView {
         jLabel2.setText(resourceMap.getString("jLabel2.text")); // NOI18N
         jLabel2.setName("jLabel2"); // NOI18N
 
+        javax.swing.ActionMap actionMap = org.jdesktop.application.Application.getInstance(minor.MinorApp.class).getContext().getActionMap(MinorView.class, this);
+        jButton1.setAction(actionMap.get("showEncryptOrDecrypt")); // NOI18N
         jButton1.setText(resourceMap.getString("jButton1.text")); // NOI18N
         jButton1.setName("jButton1"); // NOI18N
         jButton1.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -180,7 +193,7 @@ public class MinorView extends FrameView {
                 .addGroup(mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel2))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 10, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButton1)
                     .addComponent(jButton2))
@@ -192,7 +205,6 @@ public class MinorView extends FrameView {
         fileMenu.setText(resourceMap.getString("fileMenu.text")); // NOI18N
         fileMenu.setName("fileMenu"); // NOI18N
 
-        javax.swing.ActionMap actionMap = org.jdesktop.application.Application.getInstance(minor.MinorApp.class).getContext().getActionMap(MinorView.class, this);
         exitMenuItem.setAction(actionMap.get("quit")); // NOI18N
         exitMenuItem.setName("exitMenuItem"); // NOI18N
         fileMenu.add(exitMenuItem);
@@ -227,10 +239,10 @@ public class MinorView extends FrameView {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(statusPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(statusPanelLayout.createSequentialGroup()
-                        .addGap(10, 377, Short.MAX_VALUE)
+                        .addGap(10, 397, Short.MAX_VALUE)
                         .addComponent(statusAnimationLabel)
                         .addContainerGap())
-                    .addComponent(statusPanelSeparator, javax.swing.GroupLayout.DEFAULT_SIZE, 387, Short.MAX_VALUE)))
+                    .addComponent(statusPanelSeparator, javax.swing.GroupLayout.DEFAULT_SIZE, 409, Short.MAX_VALUE)))
         );
         statusPanelLayout.setVerticalGroup(
             statusPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -250,53 +262,60 @@ public class MinorView extends FrameView {
 
     private void jButton1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton1MouseClicked
                 // TODO add your handling code here:
-        
-        
+               
     }//GEN-LAST:event_jButton1MouseClicked
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
+       // String backupDir = "/Users/al/backups";
+     
+    // create a jframe
+     JFrame frame = new JFrame("JOptionPane showMessageDialog message");
+
         try
         {
         String username = jTextField1.getText().trim();
         String password = jTextField2.getText().trim();
         
-        String url = "jdbc:mysql://localhost:3306/";  
-        String dbName = "user"; 
-        String driver = "com.mysql.jdbc.Driver"; 
-        String db_username = "root"; 
-        String db_password = ""; 
+        //JOptionPane.showMessageDialog(frame, "user found, access granted");
+        //System.exit(0);
+        //String url = "jdbc:mysql://localhost:3306/";  
+        //String dbName = "minor"; 
+        //String driver = "com.mysql.jdbc.Driver"; 
+        //String db_username = "root"; 
+        //String db_password = "helloworld"; 
         
-        Class.forName(driver).newInstance();
+        //Class.forName(driver).newInstance();
         
-        Connection conn = DriverManager.getConnection(url+dbName,db_username,db_password);
-
-      
-        String sql = "SELECT user, pass FROM `user` WHERE user ='"+username+"'pass ='"+password+"'";
-        rs = stmt.executeQuery(sql);
+        //Connection conn = DriverManager.getConnection(url+dbName,db_username,db_password);
+        //JFrame frame=new JFrame("jOptionPane showMessageDialog message");
         
-        int count = 0;
-        while(rs.next())
-        {
-            count = count + 1;
-        }
-        
-        if(count==0)
-        {
-            JOptionPane.showMessageDialog(null, "user found, access granted");
-        }
-        
-        else if(count>0)
-            JOptionPane.showMessageDialog(null, "duplicate user found, access denied");
-        else
-            JOptionPane.showMessageDialog(null, "user not found");
-        
-        
+//        String sql = "SELECT user, pass FROM `user` WHERE user ='"+username+"'pass ='"+password+"'";
+//        rs = stmt.executeQuery(sql);
+//        
+//        int count = 0;
+//        while(rs.next())
+//        {
+//            count = count + 1;
+//        }
+//        
+//        if(count==0)
+//        {
+//            JOptionPane.showMessageDialog(frame, "user found, access granted");
+//        }
+//        
+//        else if(count>0)
+//            JOptionPane.showMessageDialog(frame, "duplicate user found, access denied");
+//        else
+//            JOptionPane.showMessageDialog(frame, "user not found");
         }catch(Exception e){
         
         }
     }//GEN-LAST:event_jButton1ActionPerformed
-    
+
+   
+
+ 
     
     
             
@@ -329,4 +348,5 @@ public class MinorView extends FrameView {
     private int busyIconIndex = 0;
 
     private JDialog aboutBox;
+    private JFrame eOD;
 }
