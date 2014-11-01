@@ -277,8 +277,11 @@ public class MinorView extends FrameView {
         String username = jTextField1.getText().trim();
         String password = jTextField2.getText().trim();
         
+<<<<<<< HEAD
         //JOptionPane.showMessageDialog(frame, "user found, access granted");
         //System.exit(0);
+=======
+>>>>>>> f80062e6985e2facd06da1b08548c30b08742cc8
         //String url = "jdbc:mysql://localhost:3306/";  
         //String dbName = "minor"; 
         //String driver = "com.mysql.jdbc.Driver"; 
@@ -286,6 +289,30 @@ public class MinorView extends FrameView {
         //String db_password = "helloworld"; 
         
         //Class.forName(driver).newInstance();
+<<<<<<< HEAD
+=======
+        
+        //Connection conn = DriverManager.getConnection(url+dbName,db_username,db_password);
+        //JFrame frame=new JFrame("jOptionPane showMessageDialog message");
+        String sql = "SELECT user, pass FROM `user` WHERE user ='"+username+"'pass ='"+password+"'";
+        rs = stmt.executeQuery(sql);
+        
+        int count = 0;
+        while(rs.next())
+        {
+            count = count + 1;
+        }
+        
+        if(count==0)
+        {
+            JOptionPane.showMessageDialog(frame, "user found, access granted");
+        }
+        
+        else if(count>0)
+            JOptionPane.showMessageDialog(frame, "duplicate user found, access denied");
+        else
+            JOptionPane.showMessageDialog(frame, "user not found");
+>>>>>>> f80062e6985e2facd06da1b08548c30b08742cc8
         
         //Connection conn = DriverManager.getConnection(url+dbName,db_username,db_password);
         //JFrame frame=new JFrame("jOptionPane showMessageDialog message");
