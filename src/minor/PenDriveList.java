@@ -109,7 +109,7 @@ public class PenDriveList extends javax.swing.JFrame {
 
     private void jList1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jList1MouseClicked
        // TODO add your handling code here:
-         new EncryptProgress().setV
+         new EncryptProgress().setVisible(true);
     }//GEN-LAST:event_jList1MouseClicked
 
     /**

@@ -145,18 +145,11 @@ public class MinorView extends FrameView {
         jLabel2.setText(resourceMap.getString("jLabel2.text")); // NOI18N
         jLabel2.setName("jLabel2"); // NOI18N
 
-        javax.swing.ActionMap actionMap = org.jdesktop.application.Application.getInstance(minor.MinorApp.class).getContext().getActionMap(MinorView.class, this);
-        jButton1.setAction(actionMap.get("showEncryptOrDecrypt")); // NOI18N
         jButton1.setText(resourceMap.getString("jButton1.text")); // NOI18N
         jButton1.setName("jButton1"); // NOI18N
         jButton1.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 jButton1MouseClicked(evt);
-            }
-        });
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
             }
         });
 
@@ -205,6 +198,7 @@ public class MinorView extends FrameView {
         fileMenu.setText(resourceMap.getString("fileMenu.text")); // NOI18N
         fileMenu.setName("fileMenu"); // NOI18N
 
+        javax.swing.ActionMap actionMap = org.jdesktop.application.Application.getInstance(minor.MinorApp.class).getContext().getActionMap(MinorView.class, this);
         exitMenuItem.setAction(actionMap.get("quit")); // NOI18N
         exitMenuItem.setName("exitMenuItem"); // NOI18N
         fileMenu.add(exitMenuItem);
@@ -262,83 +256,12 @@ public class MinorView extends FrameView {
 
     private void jButton1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton1MouseClicked
                 // TODO add your handling code here:
-               
+               String user=jTextField1.getText();
+               String pass=jTextField2.getText();
+               Database minor;
+               JOptionPane.showMessageDialog(null, user);
+               showEncryptOrDecrypt();
     }//GEN-LAST:event_jButton1MouseClicked
-
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        // TODO add your handling code here:
-       // String backupDir = "/Users/al/backups";
-     
-    // create a jframe
-     JFrame frame = new JFrame("JOptionPane showMessageDialog message");
-
-        try
-        {
-        String username = jTextField1.getText().trim();
-        String password = jTextField2.getText().trim();
-        
-<<<<<<< HEAD
-        //JOptionPane.showMessageDialog(frame, "user found, access granted");
-        //System.exit(0);
-=======
->>>>>>> f80062e6985e2facd06da1b08548c30b08742cc8
-        //String url = "jdbc:mysql://localhost:3306/";  
-        //String dbName = "minor"; 
-        //String driver = "com.mysql.jdbc.Driver"; 
-        //String db_username = "root"; 
-        //String db_password = "helloworld"; 
-        
-        //Class.forName(driver).newInstance();
-<<<<<<< HEAD
-=======
-        
-        //Connection conn = DriverManager.getConnection(url+dbName,db_username,db_password);
-        //JFrame frame=new JFrame("jOptionPane showMessageDialog message");
-        String sql = "SELECT user, pass FROM `user` WHERE user ='"+username+"'pass ='"+password+"'";
-        rs = stmt.executeQuery(sql);
-        
-        int count = 0;
-        while(rs.next())
-        {
-            count = count + 1;
-        }
-        
-        if(count==0)
-        {
-            JOptionPane.showMessageDialog(frame, "user found, access granted");
-        }
-        
-        else if(count>0)
-            JOptionPane.showMessageDialog(frame, "duplicate user found, access denied");
-        else
-            JOptionPane.showMessageDialog(frame, "user not found");
->>>>>>> f80062e6985e2facd06da1b08548c30b08742cc8
-        
-        //Connection conn = DriverManager.getConnection(url+dbName,db_username,db_password);
-        //JFrame frame=new JFrame("jOptionPane showMessageDialog message");
-        
-//        String sql = "SELECT user, pass FROM `user` WHERE user ='"+username+"'pass ='"+password+"'";
-//        rs = stmt.executeQuery(sql);
-//        
-//        int count = 0;
-//        while(rs.next())
-//        {
-//            count = count + 1;
-//        }
-//        
-//        if(count==0)
-//        {
-//            JOptionPane.showMessageDialog(frame, "user found, access granted");
-//        }
-//        
-//        else if(count>0)
-//            JOptionPane.showMessageDialog(frame, "duplicate user found, access denied");
-//        else
-//            JOptionPane.showMessageDialog(frame, "user not found");
-        }catch(Exception e){
-        
-        }
-    }//GEN-LAST:event_jButton1ActionPerformed
 
    
 
