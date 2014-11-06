@@ -16,6 +16,8 @@ import javax.swing.Icon;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
 import java.sql.*;    //for sql statements
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 /**
  * The application's main frame.
@@ -255,12 +257,30 @@ public class MinorView extends FrameView {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton1MouseClicked
-                // TODO add your handling code here:
-               String user=jTextField1.getText();
-               String pass=jTextField2.getText();
-               Database minor;
-               JOptionPane.showMessageDialog(null, user);
-               showEncryptOrDecrypt();
+
+            // TODO add your handling code here:
+            String user=jTextField1.getText();
+            String pass=jTextField2.getText();
+            Database minor=new Database();
+            ResultSet r;
+            
+            String sql;
+            sql = "select * from user where user=\""+user+"\" and pass=\""+pass+"\"";
+            r=minor.getRS(sql);
+        try {
+            if(r.next()){
+                JOptionPane.showMessageDialog(null, "user and pass are correct!");
+                showEncryptOrDecrypt();
+            }
+            else
+            {
+                JOptionPane.showMessageDialog(null, "user or pass are incorrect!");
+            }
+        }
+            catch(SQLException e)
+                    {JOptionPane.showMessageDialog(null, "user or pass are incorrect!");
+                        System.out.println(e);
+                    }
     }//GEN-LAST:event_jButton1MouseClicked
 
    
