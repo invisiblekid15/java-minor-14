@@ -278,7 +278,8 @@ public class MinorView extends FrameView {
             }
         }
             catch(SQLException e)
-                    {JOptionPane.showMessageDialog(null, "user or pass are incorrect!");
+                    {
+                        JOptionPane.showMessageDialog(null, "user or pass are incorrect!");
                         System.out.println(e);
                     }
     }//GEN-LAST:event_jButton1MouseClicked
