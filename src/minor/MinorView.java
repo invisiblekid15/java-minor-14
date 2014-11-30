@@ -16,8 +16,9 @@ import javax.swing.Icon;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
 import java.sql.*;    //for sql statements
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
-
 /**
  * The application's main frame.
  */
@@ -92,7 +93,19 @@ public class MinorView extends FrameView {
         }
         MinorApp.getApplication().show(aboutBox);
     }
-
+    
+    @Action
+    public void showEncryptOrDecrypt(){
+        if(eOD == null)
+        {
+            JFrame mainFrame = MinorApp.getApplication().getMainFrame();
+            eOD = new EncryptOrDecrypt();
+            eOD.setLocationRelativeTo(mainFrame);
+            mainFrame.dispose();
+        }
+         MinorApp.getApplication().show(eOD);
+         
+    }
     /** This method is called from within the constructor to
      * initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is
@@ -139,11 +152,6 @@ public class MinorView extends FrameView {
         jButton1.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 jButton1MouseClicked(evt);
-            }
-        });
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
             }
         });
 
@@ -249,56 +257,32 @@ public class MinorView extends FrameView {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton1MouseClicked
-                // TODO add your handling code here:
-               
+
+            // TODO add your handling code here:
+            String user=jTextField1.getText();
+            String pass=jTextField2.getText();
+            Database minor=new Database();
+            ResultSet r;
+            
+            String sql;
+            sql = "select * from user where user=\""+user+"\" and pass=\""+pass+"\"";
+            r=minor.getRS(sql);
+        try {
+            if(r.next()){
+                JOptionPane.showMessageDialog(null, "user and pass are correct!");
+                showEncryptOrDecrypt();
+            }
+            else
+            {
+                JOptionPane.showMessageDialog(null, "user or pass are incorrect!");
+            }
+        }
+            catch(SQLException e)
+                    {
+                        JOptionPane.showMessageDialog(null, "user or pass are incorrect!");
+                        System.out.println(e);
+                    }
     }//GEN-LAST:event_jButton1MouseClicked
-
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        // TODO add your handling code here:
-       // String backupDir = "/Users/al/backups";
-     
-    // create a jframe
-     JFrame frame = new JFrame("JOptionPane showMessageDialog message");
-
-        try
-        {
-        String username = jTextField1.getText().trim();
-        String password = jTextField2.getText().trim();
-        
-        //String url = "jdbc:mysql://localhost:3306/";  
-        //String dbName = "minor"; 
-        //String driver = "com.mysql.jdbc.Driver"; 
-        //String db_username = "root"; 
-        //String db_password = "helloworld"; 
-        
-        //Class.forName(driver).newInstance();
-        
-        //Connection conn = DriverManager.getConnection(url+dbName,db_username,db_password);
-        //JFrame frame=new JFrame("jOptionPane showMessageDialog message");
-        String sql = "SELECT user, pass FROM `user` WHERE user ='"+username+"'pass ='"+password+"'";
-        rs = stmt.executeQuery(sql);
-        
-        int count = 0;
-        while(rs.next())
-        {
-            count = count + 1;
-        }
-        
-        if(count==0)
-        {
-            JOptionPane.showMessageDialog(frame, "user found, access granted");
-        }
-        
-        else if(count>0)
-            JOptionPane.showMessageDialog(frame, "duplicate user found, access denied");
-        else
-            JOptionPane.showMessageDialog(frame, "user not found");
-        
-        
-        }catch(Exception e){
-        
-        }
-    }//GEN-LAST:event_jButton1ActionPerformed
 
    
 
@@ -335,4 +319,5 @@ public class MinorView extends FrameView {
     private int busyIconIndex = 0;
 
     private JDialog aboutBox;
+    private JFrame eOD;
 }
