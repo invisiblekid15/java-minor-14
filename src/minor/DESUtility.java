@@ -17,15 +17,16 @@ public class DESUtility {
 
 	public static void main(String[] args) {
 		try {
+                        
 			String key = "blackbeard93"; // needs to be at least 8 characters for DES
 
 			FileInputStream fis = new FileInputStream("original.txt");
 			FileOutputStream fos = new FileOutputStream("encrypted.txt");
 			encrypt(key, fis, fos);
 
-			FileInputStream fis2 = new FileInputStream("encrypted.txt");
-			FileOutputStream fos2 = new FileOutputStream("decrypted.txt");
-			decrypt(key, fis2, fos2);
+//			FileInputStream fis2 = new FileInputStream("encrypted.txt");
+//			FileOutputStream fos2 = new FileOutputStream("decrypted.txt");
+//			decrypt(key, fis2, fos2);
 		} catch (Throwable e) {
 			e.printStackTrace();
 		}

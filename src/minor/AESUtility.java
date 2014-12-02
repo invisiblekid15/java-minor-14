@@ -1,121 +1,141 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package minor;
 
-import java.io.UnsupportedEncodingException;
-import java.security.InvalidKeyException;
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
-import java.util.Arrays;
-import javax.crypto.BadPaddingException;
-import javax.crypto.Cipher;
-import javax.crypto.IllegalBlockSizeException;
-import javax.crypto.NoSuchPaddingException;
-import javax.crypto.spec.SecretKeySpec;
-import org.apache.commons.codec.binary.Base64;
+import java.io.*;
+import java.security.*;
+import java.security.spec.*;
+
+import javax.crypto.*;
+import javax.crypto.spec.*;
 
 /**
- *
- * @author brij
+ * Utility class for encrypting/decrypting files.
+ * @author Michael Lones
  */
 public class AESUtility {
-    
-    private static SecretKeySpec secretKey ;
-    private static byte[] key ;
-    private static String decryptedString;
-    private static String encryptedString;
-    public static void setKey(String myKey){
-    
-    MessageDigest sha;
-        try {
-            key = myKey.getBytes("UTF-8");
-            System.out.println(key.length);
-            sha = MessageDigest.getInstance("SHA-1");
-            key = sha.digest(key);
-            key = Arrays.copyOf(key, 16); // use only first 128 bit
-            System.out.println(key.length);
-            System.out.println(new String(key,"UTF-8"));
-            secretKey = new SecretKeySpec(key, "AESUtility");
-        
-        
-        } catch (NoSuchAlgorithmException e) {
-            System.out.println(e);
-        } catch (UnsupportedEncodingException e) {
-            System.out.println(e);
-        }
-    
-         
-    
-}
-public static String getDecryptedString() {
-        return decryptedString;
-    }
-    public static void setDecryptedString(String decryptedString) {
-        AESUtility.decryptedString = decryptedString;
-    }
-public static String getEncryptedString() {
-        return encryptedString;
-    }
-    public static void setEncryptedString(String encryptedString) {
-        AESUtility.encryptedString = encryptedString;
-    }
-    public static String encrypt(String strToEncrypt)
-{
-try
-{
-Cipher cipher = Cipher.getInstance("AESUtility/ECB/PKCS5Padding");
-cipher.init(Cipher.ENCRYPT_MODE, secretKey);
-setEncryptedString(Base64.encodeBase64String(cipher.doFinal(strToEncrypt.getBytes("UTF-8"))));
-}
-catch (UnsupportedEncodingException e)
-{
-System.out.println("Error while encrypting: "+e.toString());
-}       catch (InvalidKeyException e) {
-    System.out.println("Error while encrypting: "+e.toString());
-        } catch (NoSuchAlgorithmException e) {
-            System.out.println("Error while encrypting: "+e.toString());
-        } catch (BadPaddingException e) {
-            System.out.println("Error while encrypting: "+e.toString());
-        } catch (IllegalBlockSizeException e) {
-            System.out.println("Error while encrypting: "+e.toString());
-        } catch (NoSuchPaddingException e) {
-            System.out.println("Error while encrypting: "+e.toString());
-        }
-return null;
-}
-public static String decrypt(String strToDecrypt)
-{
-try
-{
-Cipher cipher = Cipher.getInstance("AESUtility/ECB/PKCS5PADDING");
-cipher.init(Cipher.DECRYPT_MODE, secretKey);
-setDecryptedString(new String(cipher.doFinal(Base64.decodeBase64(strToDecrypt))));
-}
-catch (InvalidKeyException e)
-{
-System.out.println("Error while decrypting: "+e.toString());
-}       catch (NoSuchAlgorithmException e) {
-    System.out.println("Error while decrypting: "+e.toString());
-        } catch (NoSuchPaddingException e) {
-            System.out.println("Error while decrypting: "+e.toString());
-        }
-return null;
-}
-public static void main(String args[])
-{
-final String strToEncrypt = "My text to encrypt";
-final String strPssword = "encryptor key";
-AESUtility.setKey(strPssword);
-AESUtility.encrypt(strToEncrypt.trim());
-System.out.println("String to Encrypt: " + strToEncrypt);
-System.out.println("Encrypted: " + AESUtility.getEncryptedString());
-final String strToDecrypt = AESUtility.getEncryptedString();
-AESUtility.decrypt(strToDecrypt.trim());
-System.out.println("String To Decrypt : " + strToDecrypt);
-System.out.println("Decrypted : " + AESUtility.getDecryptedString());
-}
-    
+	
+	public static final int AES_Key_Size = 256;
+	
+	Cipher pkCipher, aesCipher;
+	byte[] aesKey;
+	SecretKeySpec aeskeySpec;
+	
+	/**
+	 * Constructor: creates ciphers
+     * @throws java.security.GeneralSecurityException
+	 */
+	public AESUtility() throws GeneralSecurityException {
+		// create RSA public key cipher
+		pkCipher = Cipher.getInstance("RSA");
+	    // create AES shared key cipher
+	    aesCipher = Cipher.getInstance("AES");
+	}
+	
+	/**
+	 * Creates a new AES key
+     * @throws java.security.NoSuchAlgorithmException
+	 */
+	public void makeKey() throws NoSuchAlgorithmException {
+		KeyGenerator kgen = KeyGenerator.getInstance("AES");
+	    kgen.init(AES_Key_Size);
+	    SecretKey key = kgen.generateKey();
+	    aesKey = key.getEncoded();
+	    aeskeySpec = new SecretKeySpec(aesKey, "AES");
+	}
+
+	/**
+	 * Decrypts an AES key from a file using an RSA private key
+     * @param in
+     * @param privateKeyFile
+     * @throws java.security.GeneralSecurityException
+     * @throws java.io.IOException
+	 */
+	public void loadKey(File in, File privateKeyFile) throws GeneralSecurityException, IOException {
+		// read private key to be used to decrypt the AES key
+		byte[] encodedKey = new byte[(int)privateKeyFile.length()];
+		new FileInputStream(privateKeyFile).read(encodedKey);
+		
+		// create private key
+		PKCS8EncodedKeySpec privateKeySpec = new PKCS8EncodedKeySpec(encodedKey);
+		KeyFactory kf = KeyFactory.getInstance("RSA");
+		PrivateKey pk = kf.generatePrivate(privateKeySpec);
+		
+		// read AES key
+		pkCipher.init(Cipher.DECRYPT_MODE, pk);
+		aesKey = new byte[AES_Key_Size/8];
+		CipherInputStream is = new CipherInputStream(new FileInputStream(in), pkCipher);
+		is.read(aesKey);
+		aeskeySpec = new SecretKeySpec(aesKey, "AES");
+	}
+	
+	/**
+	 * Encrypts the AES key to a file using an RSA public key
+     * @param out
+     * @param publicKeyFile
+     * @throws java.io.IOException
+     * @throws java.security.GeneralSecurityException
+	 */
+	public void saveKey(File out, File publicKeyFile) throws IOException, GeneralSecurityException {
+		// read public key to be used to encrypt the AES key
+		byte[] encodedKey = new byte[(int)publicKeyFile.length()];
+		new FileInputStream(publicKeyFile).read(encodedKey);
+		
+		// create public key
+		X509EncodedKeySpec publicKeySpec = new X509EncodedKeySpec(encodedKey);
+		KeyFactory kf = KeyFactory.getInstance("RSA");
+		PublicKey pk = kf.generatePublic(publicKeySpec);
+		
+		// write AES key
+		pkCipher.init(Cipher.ENCRYPT_MODE, pk);
+		CipherOutputStream os = new CipherOutputStream(new FileOutputStream(out), pkCipher);
+		os.write(aesKey);
+		os.close();
+	}
+	
+	/**
+	 * Encrypts and then copies the contents of a given file.
+     * @param in
+     * @param out
+     * @throws java.io.IOException
+     * @throws java.security.InvalidKeyException
+	 */
+	public void encrypt(File in, File out) throws IOException, InvalidKeyException {
+		aesCipher.init(Cipher.ENCRYPT_MODE, aeskeySpec);
+		
+		FileInputStream is = new FileInputStream(in);
+		CipherOutputStream os = new CipherOutputStream(new FileOutputStream(out), aesCipher);
+		
+		copy(is, os);
+		
+		os.close();
+	}
+	
+	/**
+	 * Decrypts and then copies the contents of a given file.
+     * @param in
+     * @param out
+     * @throws java.io.IOException
+     * @throws java.security.InvalidKeyException
+	 */
+	public void decrypt(File in, File out) throws IOException, InvalidKeyException {
+		aesCipher.init(Cipher.DECRYPT_MODE, aeskeySpec);
+		
+		CipherInputStream is = new CipherInputStream(new FileInputStream(in), aesCipher);
+		FileOutputStream os = new FileOutputStream(out);
+		
+		copy(is, os);
+		
+		is.close();
+		os.close();
+	}
+	
+	/**
+	 * Copies a stream.
+	 */
+	private void copy(InputStream is, OutputStream os) throws IOException {
+		int i;
+		byte[] b = new byte[1024];
+		while((i=is.read(b))!=-1) {
+			os.write(b, 0, i);
+		}
+	}
 }
