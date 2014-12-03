@@ -96,6 +96,17 @@ public class AES_DES extends javax.swing.JFrame implements FileWork {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // pressed the AES button
+        try{
+                AESUtility aes_util = new AESUtility();
+                aes_util.makeKey();
+                aes_util.saveKey(out_aes, publicKeyFile);
+                aes_util.encrypt(in, out_aes);
+                
+            }
+            catch(Throwable e)
+            {
+                e.printStackTrace();
+            }
         
     }//GEN-LAST:event_jButton1ActionPerformed
 

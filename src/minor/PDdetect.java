@@ -14,7 +14,6 @@ public class PDdetect {
     {
         
         FileSystemView fsv = FileSystemView.getFileSystemView();
-				
         File[] f = File.listRoots();
         for (int i = 0; i < f.length; i++) {
           String drive = f[i].getPath();
@@ -37,13 +36,13 @@ if (driveLetter.equals("")) {
   // ....		
     System.out.println("nothing found");
     JOptionPane.showMessageDialog(null,"No Pen Drive Detected");
-} else {
+    } else {
   // USB drive found: driveLetter
   // ...
     System.out.println("successfully detected: " +driveLetter);
     JOptionPane.showMessageDialog(null,"Pen Drive Detected");
     MinorApp.main(args);
-}   
+    }   
     }
     
 }

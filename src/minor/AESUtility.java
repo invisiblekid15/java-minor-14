@@ -14,23 +14,6 @@ public class AESUtility implements FileWork{
 	byte[] aesKey;
 	SecretKeySpec aeskeySpec;
 	
-        
-        public static void main(String[] args)
-        {
-            
-            try{
-                
-                AESUtility aes = new AESUtility();
-                aes.makeKey();
-                aes.saveKey(out_aes, publicKeyFile);
-                aes.encrypt(in, out_aes);
-                
-            }
-            catch(Throwable e)
-            {
-                e.printStackTrace();
-            }
-        }
 	/**
 	 * Constructor: creates ciphers
      * @throws java.security.GeneralSecurityException
