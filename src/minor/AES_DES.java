@@ -2,6 +2,7 @@ package minor;
 
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -29,7 +30,7 @@ public class AES_DES extends javax.swing.JFrame implements FileWork {
         jButton1 = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setName("Form"); // NOI18N
 
         org.jdesktop.application.ResourceMap resourceMap = org.jdesktop.application.Application.getInstance(minor.MinorApp.class).getContext().getResourceMap(AES_DES.class);
@@ -88,6 +89,7 @@ public class AES_DES extends javax.swing.JFrame implements FileWork {
         FileInputStream fis = new FileInputStream(in);
 	FileOutputStream fos = new FileOutputStream(out_des);
 	des_util.encrypt(key, fis, fos);
+        JOptionPane.showMessageDialog(null,"DES Encryption Successful");
         }
         catch (Throwable e) {
 		e.printStackTrace();
@@ -101,7 +103,7 @@ public class AES_DES extends javax.swing.JFrame implements FileWork {
                 aes_util.makeKey();
                 aes_util.saveKey(out_aes, publicKeyFile);
                 aes_util.encrypt(in, out_aes);
-                
+                JOptionPane.showMessageDialog(null,"AES Encryption Successful");
             }
             catch(Throwable e)
             {
