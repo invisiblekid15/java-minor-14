@@ -3,15 +3,10 @@ package minor;
 import java.io.*;
 import java.security.*;
 import java.security.spec.*;
-
 import javax.crypto.*;
 import javax.crypto.spec.*;
 
-/**
- * Utility class for encrypting/decrypting files.
- * @author Michael Lones
- */
-public class AESUtility {
+public class AESUtility implements FileWork{
 	
 	public static final int AES_Key_Size = 256;
 	
@@ -19,6 +14,23 @@ public class AESUtility {
 	byte[] aesKey;
 	SecretKeySpec aeskeySpec;
 	
+        
+        public static void main(String[] args)
+        {
+            
+            try{
+                
+                AESUtility aes = new AESUtility();
+                aes.makeKey();
+                aes.saveKey(out_aes, publicKeyFile);
+                aes.encrypt(in, out_aes);
+                
+            }
+            catch(Throwable e)
+            {
+                e.printStackTrace();
+            }
+        }
 	/**
 	 * Constructor: creates ciphers
      * @throws java.security.GeneralSecurityException

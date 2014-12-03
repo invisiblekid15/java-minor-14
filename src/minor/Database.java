@@ -27,7 +27,7 @@ public class Database {
        JDBC_DRIVER="com.mysql.jdbc.Driver";
        DB_URL="jdbc:mysql://localhost:3306/minor?zeroDateTimeBehavior=convertToNull";
        Db_User="root";
-       Db_Pass="helloworld";
+       Db_Pass="";
     try{
          Class.forName(JDBC_DRIVER);
          conn =DriverManager.getConnection(DB_URL,Db_User,Db_Pass);
