@@ -14,23 +14,6 @@ import javax.crypto.spec.DESKeySpec;
 
 public class DESUtility implements FileWork{
 
-	public static void main(String[] args) {
-		try {
-                        
-			String key = "blackbeard93"; // needs to be at least 8 characters for DES
-
-			FileInputStream fis = new FileInputStream(in);
-			FileOutputStream fos = new FileOutputStream(out_des);
-			encrypt(key, fis, fos);
-
-			/*FileInputStream fis2 = new FileInputStream("d:\\encrypted.txt");
-			FileOutputStream fos2 = new FileOutputStream("d:\\decrypted.txt");
-			decrypt(key, fis2, fos2);*/
-		} catch (Throwable e) {
-			e.printStackTrace();
-		}
-	}
-
 	public static void encrypt(String key, InputStream is, OutputStream os) throws Throwable {
 		encryptOrDecrypt(key, Cipher.ENCRYPT_MODE, is, os);
 	}

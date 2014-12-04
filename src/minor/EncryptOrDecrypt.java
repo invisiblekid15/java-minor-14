@@ -98,10 +98,11 @@ public class EncryptOrDecrypt extends javax.swing.JFrame implements FileWork {
             ResultSet res;
             
             String sql;
-            sql = "SELECT aes AND des FROM info WHERE ID = (SELECT MAX(ID) FROM TABLE)";
-            res = minor.getRS(sql);
             try 
             {
+            sql = "SELECT aes,des FROM info WHERE id = (SELECT MAX(id) FROM info)";
+            res = minor.getRS(sql);
+            
                 if(res.next()){
                     int aes_stat = res.getInt("aes");
                     int des_stat = res.getInt("des");
@@ -110,7 +111,7 @@ public class EncryptOrDecrypt extends javax.swing.JFrame implements FileWork {
                         try{
                         AESUtility aes_util = new AESUtility();
                         //aes_util.makeKey();
-                        aes_util.loadKey(out_aes, privateKeyFile);
+                        aes_util.loadKey(in, privateKeyFile);
                         aes_util.decrypt(out_aes, out_aes_dec);
                         JOptionPane.showMessageDialog(null,"AES Dencryption Successful");
                         }
@@ -124,7 +125,7 @@ public class EncryptOrDecrypt extends javax.swing.JFrame implements FileWork {
                             DESUtility des_util = new DESUtility();
                             FileInputStream fis2 = new FileInputStream(out_des);
                             FileOutputStream fos2 = new FileOutputStream(out_des_dec);
-                            des_util.encrypt(key, fis2, fos2);
+                            des_util.decrypt(key, fis2, fos2);
                             JOptionPane.showMessageDialog(null,"DES Decryption Successful");
                             }
                             catch (Throwable e) {

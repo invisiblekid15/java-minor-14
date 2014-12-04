@@ -41,8 +41,9 @@ if (driveLetter.equals("")) {
   // ...
     System.out.println("successfully detected: " +driveLetter);
     JOptionPane.showMessageDialog(null,"Pen Drive Detected");
-    MinorApp.main(args);
+    //MinorApp.main(args);
     }   
+
     }
     
 }
